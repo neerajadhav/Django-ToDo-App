@@ -1,1 +1,1 @@
-web: waitress-serve --port=8000 ToDoProject.wsgi:application
+web: gunicorn ToDoProject.wsgi --log-file -
