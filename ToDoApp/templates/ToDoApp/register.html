@@ -1,0 +1,21 @@
+{% extends 'ToDoApp/main.html' %}
+{% block content %}
+<h1>Register</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <label>{{ form.username.label }}</label>
+    {{ form.username }}
+
+    <label>{{ form.password1.label }}</label>
+    {{ form.password1 }}
+
+    <label>{{ form.password2.label }}</label>
+    {{ form.password2 }}
+    
+    <br><br>
+    <input class="btn btn-sm btn-primary" type="submit" value="Register">
+</form>
+
+<p>Already have and account? <a href="{% url 'login' %}">Login</a></p>
+{% endblock %}

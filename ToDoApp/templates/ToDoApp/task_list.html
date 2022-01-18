@@ -1,0 +1,66 @@
+{% extends 'ToDoApp/main.html' %}
+{% block content %}
+
+{% if request.user.is_authenticated %}
+<div class="row">
+    <div class="col-6">
+        Howdy! <b>{{ request.user|title }}</b>
+    </div>
+    <div class="col-6 text-end">
+        <a class="btn btn-sm btn-danger" href="{% url 'logout' %}">Logout</a>
+    </div>
+</div>
+    
+{% else %}
+    <a href="{% url 'login' %}">Login</a>
+{% endif %}
+<hr>
+
+<h1>My ToDo List</h1>
+<p>You have {{ count }} incomplete task{{ count|pluralize:"s" }}</p>
+
+<div class="row">
+    <div class="col-8">
+        <form action="" method="get">
+            <div class="input-group mb-3">
+                <input class="form-control" type="text" name="search-area" placeholder="Search" value="{{ search_input }}">
+                <input class="btn btn-outline-primary" type="submit" value="Search">
+            </div>
+        </form>
+    </div>
+    <div class="col-4 text-end">
+        <a class="btn btn-primary" href="{% url 'TaskCreate' %}">Add Task</a>
+    </div>
+</div>
+
+{% for task in tasks %}
+{% if not task.complete %}
+<div class="card rounded p-3">
+    <p>{{ task.title }}</p>
+    <table>
+        <tr>
+            <td><b class="text-danger">Incomplete</b></td>
+            <td><a class="btn btn-sm btn-outline-secondary" href="{% url 'TaskUpdate' task.id %}">&#9998;</a></td>
+            <td><a class="btn btn-sm btn-outline-danger" href="{% url 'TaskDelete' task.id %}">&#10005;</a></td>
+        </tr>
+    </table> 
+</div> 
+{% else %}
+<div class="card rounded p-3">
+    <p><s>{{ task.title }}</s></p>
+    <table>
+        <tr>
+            <td><b class="text-success">Completed</b></td>
+            <td><a class="btn btn-sm btn-outline-secondary" href="{% url 'TaskUpdate' task.id %}">&#9998;</a></td>
+            <td><a class="btn btn-sm btn-outline-danger" href="{% url 'TaskDelete' task.id %}">&#10005;</a></td>
+        </tr>
+    </table> 
+</div>
+{% endif %}
+{% empty %}
+        <tr>
+            <td>No tasks</td>
+        </tr>
+{% endfor %}
+
+{% endblock %}

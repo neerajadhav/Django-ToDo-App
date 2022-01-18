@@ -1,0 +1,27 @@
+{% extends 'ToDoApp/main.html' %}
+{% block content %}
+
+{% if request.user.is_authenticated %}
+<div class="row">
+    <div class="col-6">
+        Howdy! <b>{{ request.user|title }}</b>
+    </div>
+    <div class="col-6 text-end">
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'TaskList' %}">Go Home</a>
+        <a class="btn btn-sm btn-danger" href="{% url 'logout' %}">Logout</a>
+    </div>
+</div>
+    
+{% else %}
+    <a href="{% url 'login' %}">Login</a>
+{% endif %}
+<hr>
+
+<h1>Task Form</h1>
+
+<form method="POST" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}
